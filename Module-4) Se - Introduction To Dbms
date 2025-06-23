@@ -1,0 +1,13 @@
+Task 1)
+SELECT co.country_name AS country,ci.city_name AS city,cu.customer_name AS customer
+FROM country co
+LEFT JOIN city ci ON co.country_id = ci.country_id
+LEFT JOIN customer cu ON ci.city_id = cu.city_id
+ORDER BY co.country_name, ci.city_name, cu.customer_name;
+
+Task 2)
+SELECT co.country_name AS country,ci.city_name AS city,cu.customer_name AS customer
+FROM country co
+INNER JOIN city ci ON co.country_id = ci.country_id
+LEFT JOIN customer cu ON ci.city_id = cu.city_id
+ORDER BY co.country_name, ci.city_name, cu.customer_name;
