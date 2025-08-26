@@ -1,77 +1,55 @@
-CREATE TABLE country (
-    country_id    INT PRIMARY KEY,
-    country       VARCHAR(100) NOT NULL
+--SQL Query to Join Customer and Salesman Tables
 
+ Create Customer table:
+
+CREATE TABLE Customer (
+    customer_id INT,
+    cust_name VARCHAR(50),
+    city VARCHAR(50),
+    grade INT,
+    salesman_id INT
 );
 
+--Insert data into Customer table
 
-CREATE TABLE city (
-    city_id     INT PRIMARY KEY,
-    city        VARCHAR(100) NOT NULL,
-    country_id  INT NOT NULL,
-    CONSTRAINT fk_city_country
-        FOREIGN KEY (country_id) REFERENCES country(country_id)
+INSERT INTO Customer VALUES (3002, 'Nick Rimando', 'New York', 100, 5001);
+INSERT INTO Customer VALUES (3007, 'Brad Davis', 'New York', 200, 5001);
+INSERT INTO Customer VALUES (3005, 'Graham Zusi', 'California', 200, 5002);
+INSERT INTO Customer VALUES (3008, 'Julian Green', 'London', 300, 5002);
+INSERT INTO Customer VALUES (3004, 'Fabian Johnson', 'Paris', 300, 5006);
+INSERT INTO Customer VALUES (3009, 'Geoff Cameron', 'Berlin', 100, 5003);
+INSERT INTO Customer VALUES (3003, 'Jozy Altidor', 'Moscow', 200, 5007);
+INSERT INTO Customer VALUES (3001, 'Brad Guzan', 'London', NULL, 5005);
+
+
+Create Salesman table:
+
+CREATE TABLE Salesman (
+    salesman_id INT,
+    name VARCHAR(50),
+    city VARCHAR(50),
+    commission DECIMAL(4, 2)
 );
 
+--Insert data into Salesman table:
 
-CREATE TABLE customer (
-    customer_id    INT PRIMARY KEY,
-    customer_name  VARCHAR(150) NOT NULL,
-    city_id        INT NOT NULL,
-    CONSTRAINT fk_customer_city
-        FOREIGN KEY (city_id) REFERENCES city(city_id)
-);
+INSERT INTO Salesman VALUES (5001, 'James Hoog', 'New York', 0.15);
+INSERT INTO Salesman VALUES (5002, 'Nail Knite', 'Paris', 0.13);
+INSERT INTO Salesman VALUES (5005, 'Pit Alex', 'London', 0.11);
+INSERT INTO Salesman VALUES (5006, 'Mc Lyon', 'Paris', 0.14);
+INSERT INTO Salesman VALUES (5007, 'Paul Adam', 'Rome', 0.13);
+INSERT INTO Salesman VALUES (5003, 'Lauson Hen', 'San Jose', 0.12);
 
+--Final JOIN query to get required result
 
-INSERT INTO country (country_id, country) VALUES
-    (1, 'Germany'),
-    (2, 'Croatia'),
-    (3, 'United States'),
-    (4, 'Spain'),
-    (5, 'Russia');
-
-
-INSERT INTO city (city_id, city, country_id) VALUES
-    (101, 'Berlin', 1),          -- Germany
-    (102, 'Zagreb', 2),          -- Croatia
-    (103, 'New York', 3);        -- United States
-
-
-INSERT INTO customer (customer_id, customer_name, city_id) VALUES
-    (1001, 'Alice Schmidt', 101),   -- Berlin
-    (1002, 'Bruno Keller', 101),    -- Berlin
-    (1003, 'Ivana Horvat', 102),    -- Zagreb
-    (1004, 'John Carter', 103),     -- New York
-    (1005, 'Maria Lopez', 103);     -- New York
-
-
-Task 1)
-
-SELECT
-    co.country        AS country_name,
-    ci.city           AS city_name,
-    cu.customer_name  AS customer_name
-FROM country AS co
-LEFT JOIN city     AS ci ON ci.country_id = co.country_id
-LEFT JOIN customer AS cu ON cu.city_id     = ci.city_id
-ORDER BY
-    co.country,
-    ci.city,
-    cu.customer_name;
-
-
-Task 2)
-
-SELECT
-    co.country        AS country_name,
-    ci.city           AS city_name,
-    cu.customer_name  AS customer_name
-FROM country AS co
-INNER JOIN city     AS ci ON ci.country_id = co.country_id
-LEFT JOIN  customer AS cu ON cu.city_id     = ci.city_id
-ORDER BY
-    co.country,
-    ci.city,
-    cu.customer_name;
-
-
+SELECT 
+    c.cust_name AS Customer_Name,
+    c.city AS Customer_City,
+    s.name AS Salesman_Name,
+    s.commission AS Commission
+FROM 
+    Customer c
+JOIN 
+    Salesman s
+ON 
+    c.salesman_id = s.salesman_id;
